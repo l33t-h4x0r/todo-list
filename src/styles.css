@@ -1,3 +1,179 @@
 * {
     box-sizing: border-box;
 }
+body {
+    display: grid;
+    grid-template-rows: 100px;
+    grid-template-columns: 1fr 4fr;
+    font-family: sans-serif;
+    margin: 0;
+}
+html,body {
+    height: 100%; /* makes grid columns fill height of page */
+}
+
+/**********/
+/* HEADER */
+/**********/
+
+#header {
+    font-size: 24px;
+    grid-area: 1 / 1 / 2 / 3;
+
+    font-size: 50px;
+    font-weight: bold;
+    padding: 15px;
+    border-bottom: 3px solid black;
+    /*display: flex;
+    flex-direction: column;*/
+}
+
+/***********/
+/* SIDEBAR */
+/***********/
+
+#sidebar {
+    font-size: 24px;
+    background-color: bisque;
+    padding: 0px 30px 0px 20px;
+    
+}
+#sidebarHeader {
+    padding: 15px;
+    margin-top: 15px;
+    font-size: 30px;
+
+}
+.projectTitle {
+    margin-top: 15px;   
+}
+.projectTitle:hover {
+    color: rgb(86, 86, 86);
+}
+.projectIcon {
+    width: 35px;
+}
+
+/***********/
+/* PROJECT */
+/***********/
+
+#project {
+    background-color: rgb(255, 247, 236);
+}
+#projectHeader {
+    font-size: 30px;
+    margin: 30px;
+}
+#projectContainer {
+    padding-left: 20px;
+}
+
+/*********/
+/* TODOS */
+/*********/
+
+.todoContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    border-top: 1px solid grey;
+    width: 90%;
+}
+.todoHeader {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+.todoCheckbox {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: white;
+}
+.checked {
+    background-color: rgb(150, 234, 150);
+}
+.todoDetails {
+    font-size: 24px;
+}
+.todoChecklist li {
+    list-style-type: circle;
+}
+
+/********/
+/* FORM */
+/********/
+
+#formContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+    "title title duedate"
+    "desc desc priority"
+    "checklist checklist checklist"
+    "notes notes notes"
+    ". submit .";
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid grey;
+    column-gap: 30px;
+}
+.formElement {
+    border-radius: 10px;
+    border: 1px solid grey;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+.formElement:hover {
+    background-color: rgb(233, 233, 233);
+}
+#titleLabel {
+    grid-area: title;
+}
+#titleInput {
+    width: 100%;
+}
+#descriptionLabel {
+    grid-area: desc;
+}
+#descriptionInput {
+    width: 100%;
+}
+#duedateLabel {
+    grid-area: duedate;
+}
+#priorityFieldset {
+    grid-area: priority;
+}
+#checklistFieldset {
+    grid-area: checklist;
+    display: flex;
+    flex-direction: column;
+}
+.checklistDeleteBtn{
+    height: 25px;
+}
+#notesLabel {
+    grid-area: notes;
+}
+#notesInput {
+    width: 100%;
+}
+#formBtns {
+    grid-area: submit;
+    display: flex;
+    gap: 10px;
+}
+#submitBtn, #cancelBtn {
+    grid-area: submit;
+    font-size: 30px;
+    border-radius: 10px;
+    color: rgb(83, 83, 83);
+    border: 1px solid rgb(83, 83, 83);
+    background-color: white;
+}
+#submitBtn:hover {
+    background-color: rgb(233, 233, 233);
+}
