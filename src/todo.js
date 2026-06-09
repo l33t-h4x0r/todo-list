@@ -1,9 +1,8 @@
 import { compareAsc, parse, isValid } from "date-fns";
+import { storeATodo, storeAProject } from "./writeStorage.js";
 
 const globalTodoList = [];
-
 const projectList = [];
-
 let currentProject;
 
 function getCurrentProject(){
@@ -14,7 +13,7 @@ function setCurrentProject(project){
 }
 
 // given an id, searches the list of todos for one with a matching
-// id and returns its user facing-properties
+// id and returns it
 function searchGlobalTodoList(id) {
     for(let i = 0; i < globalTodoList.length; i++){
         if(id == globalTodoList[i].id){
@@ -31,9 +30,15 @@ function searchProjectList(id) {
     }
 }
 
-function makeTodo(title, description, dueDate, priority, checklist, notes) {
+function makeTodo(title, description, dueDate, priority, checklist, notes, id = 0) {
     
-    const id = crypto.randomUUID();
+    let brandNew = false;
+    // if no id is provided (i.e. this is a brand new todo), 
+    // assign a new one
+    if(id == 0) {
+        brandNew = true;
+        id = crypto.randomUUID();
+    }
     let complete = false;
     const toggleComplete = () => complete = !complete;
     let dateObj;
@@ -49,6 +54,7 @@ function makeTodo(title, description, dueDate, priority, checklist, notes) {
         return this.priority - otherTodo.priority;
     }
 
+    // Edits the values of an existing todo
     // note: is "this" needed? idk
     function editTodo(newTitle, newDesc, newDate, newPriority, newChecklist, newNotes) {
         this.title = newTitle;
@@ -61,6 +67,9 @@ function makeTodo(title, description, dueDate, priority, checklist, notes) {
         this.priority = newPriority;
         this.checklist = newChecklist;
         this.notes = newNotes;
+
+        // updates the todo in local storage
+        storeATodo(this, false);
     }
 
     function print() {
@@ -87,17 +96,23 @@ function makeTodo(title, description, dueDate, priority, checklist, notes) {
     };
 
     globalTodoList.push(todo);
+    storeATodo(todo, brandNew);
     return todo;
 }
 
-function makeProject(title) {
-
-    const id = crypto.randomUUID();
-    const todoList = [];
-
+function makeProject(title, todoList = [], id = 0) {
+    
+    let brandNew = false;
+    // if no id is provided (i.e. this is a brand new project), assign one
+    if(id == 0) {
+        brandNew = true;
+        id = crypto.randomUUID();
+    }
+    
     // adds a todo to the project
     function addTodo(todo) {
         todoList.push(todo);
+        storeAProject(this, false);
     }
 
     function removeTodo(id) {
@@ -115,6 +130,8 @@ function makeProject(title) {
                 console.log("removing todo from list");
             }
         }
+        // update project in local storage
+        storeAProject(this, false);
     }
 
     // comparison functions for use with sort()
@@ -150,9 +167,10 @@ function makeProject(title) {
         sortByDueDate,
     };
     projectList.push(project);
+    storeAProject(project, brandNew);
     return project;
 }
 
 
 export { makeTodo, makeProject, searchGlobalTodoList, searchProjectList,
-        projectList, getCurrentProject, setCurrentProject};
+        projectList, globalTodoList, getCurrentProject, setCurrentProject};

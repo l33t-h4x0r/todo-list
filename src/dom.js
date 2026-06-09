@@ -3,6 +3,7 @@ import { searchGlobalTodoList, searchProjectList, makeTodo,
         projectList
 } from "./todo.js";
 import { format } from "date-fns";
+import { removeIdFromList } from "./writeStorage.js";
 
 import xIcon from "./close.svg";
 import check from "./check.svg";
@@ -134,7 +135,6 @@ function updateSidebar() {
     for(const child of document.querySelectorAll("#projectList *")){
         child.remove();
     }
-    console.log("# projects: " + projectList.length);
     // write the new list of projects
     for(let i = 0; i < projectList.length; i++){
         const project = document.createElement("li");
@@ -384,6 +384,7 @@ function editTodo(event) {
 function deleteTodo(event) {
     let id = event.target.closest(".todoContainer").dataset.id;
     getCurrentProject().removeTodo(id);
+    removeIdFromList(id, "todo");
     refreshProject(getCurrentProject(), document.querySelector("#projectContainer"));
 }
 
